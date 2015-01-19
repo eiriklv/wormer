@@ -1,4 +1,4 @@
-My first HTML5 game
-===================
+HTML5 Snake game (wormer)
+=========================
 
-Just some fooling around based on [this tutorial](http://www.lostdecadegames.com/how-to-make-a-simple-html5-canvas-game/)
+Just some fooling around based on [this tutorial](http://jdstraughan.com/2013/03/05/html5-snake-with-source-code-walkthrough/)
