@@ -3,7 +3,20 @@ hgroup, menu, nav, section {
   display: block;
 }
 body {
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  word-wrap: break-word;
+  -webkit-font-feature-settings: "liga", "kern";
+  -moz-font-feature-settings: "liga", "kern";
+  font-feature-settings: "liga", "kern";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizelegibility;
   background-color: #CCC;
+  text-shadow: 1px 1px #ddd;
+}
+a {
+  color: #FF00FF;
 }
 h1 {
   text-align: center;
@@ -15,4 +28,16 @@ canvas {
   display: block;
   margin: 0 auto;
   background-color: #000;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.navbar-header {
+  float: left;
+  padding: 40px 20px 30px 20px;
+  text-align: center;
+  width: 100%;
+}
+.navbar-brand {
+  font-size: 40px;
+  float:none;
 }
