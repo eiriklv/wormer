@@ -1,31 +1,28 @@
 var raf = require('raf');
 var modulus = require('./helpers/modulus');
-var canvas = document.getElementById('game-canvas');
-var context = canvas.getContext('2d');
-var game, snake, food;
-
 var inverseDirection = require('./helpers/inverse-directions');
 var getCommand = require('./helpers/commands');
+var canvas = document.getElementById('game-canvas');
+var context = canvas.getContext('2d');
 
-game = {
-
+var game = {
   score: 0,
   fps: 8,
   over: true,
   message: 'PRESS SPACE TO START THE GAME',
 
   start: function() {
-    game.over = false;
-    game.message = null;
-    game.score = 0;
-    game.fps = 8;
+    this.over = false;
+    this.message = null;
+    this.score = 0;
+    this.fps = 8;
     snake.init();
     food.set();
   },
 
   stop: function() {
-    game.over = true;
-    game.message = 'GAME OVER - PRESS SPACEBAR';
+    this.over = true;
+    this.message = 'GAME OVER - PRESS SPACEBAR';
   },
 
   drawBox: function(x, y, size, color) {
@@ -43,7 +40,7 @@ game = {
     context.fillStyle = '#333';
     context.font = (canvas.height) + 'px Impact, sans-serif';
     context.textAlign = 'center';
-    context.fillText(game.score, canvas.width / 2, canvas.height * 0.9);
+    context.fillText(this.score, canvas.width / 2, canvas.height * 0.9);
   },
 
   drawMessage: function() {
@@ -52,19 +49,17 @@ game = {
       context.strokeStyle = '#999';
       context.font = (canvas.height / 10) + 'px Impact';
       context.textAlign = 'center';
-      context.fillText(game.message, canvas.width / 2, canvas.height / 2);
-      context.strokeText(game.message, canvas.width / 2, canvas.height / 2);
+      context.fillText(this.message, canvas.width / 2, canvas.height / 2);
+      context.strokeText(this.message, canvas.width / 2, canvas.height / 2);
     }
   },
 
   resetCanvas: function() {
     context.clearRect(0, 0, canvas.width, canvas.height);
   }
-
 };
 
-snake = {
-
+var snake = {
   size: canvas.width / 40,
   x: null,
   y: null,
@@ -156,47 +151,24 @@ snake = {
       this.sections.shift();
     }
   }
-
 };
 
-food = {
-
+var food = {
   size: null,
   x: null,
   y: null,
   color: '#0FF',
 
   set: function() {
-    food.size = snake.size;
-    food.x = (Math.ceil(Math.random() * 10) * snake.size * 4) - snake.size / 2;
-    food.y = (Math.ceil(Math.random() * 10) * snake.size * 3) - snake.size / 2;
+    this.size = snake.size;
+    this.x = (Math.ceil(Math.random() * 10) * snake.size * 4) - snake.size / 2;
+    this.y = (Math.ceil(Math.random() * 10) * snake.size * 3) - snake.size / 2;
   },
 
   draw: function() {
-    game.drawBox(food.x, food.y, food.size, food.color);
+    game.drawBox(this.x, this.y, this.size, this.color);
   }
-
 };
-
-addEventListener('keydown', function(e) {
-  var command = getCommand(e.keyCode);
-  
-  if (
-    !!~['up', 'down', 'left', 'right'].indexOf(command) &&
-    command != inverseDirection[snake.direction] &&
-    snake.canMove
-  ) {
-    snake.direction = command;
-    snake.canMove = false;
-  } else if (
-    ['start_game'].indexOf(command) >= 0 &&
-    game.over
-  ) {
-    game.start();
-  }
-  
-  return false;
-}, false);
 
 function loop() {
   if (!game.over) {
@@ -213,4 +185,30 @@ function loop() {
   }, 1000 / game.fps);
 }
 
-raf(loop);
+function initControls() {
+  var command;
+
+  addEventListener('keydown', function(e) {
+    command = getCommand(e.keyCode);
+
+    if (!!~['up', 'down', 'left', 'right'].indexOf(command) &&
+      command != inverseDirection[snake.direction] &&
+      snake.canMove
+    ) {
+      snake.direction = command;
+      snake.canMove = false;
+    } else if (
+      ['start_game'].indexOf(command) >= 0 &&
+      game.over
+    ) {
+      game.start();
+    }
+
+    return false;
+  }, false);
+}
+
+(function() {
+  initControls();
+  raf(loop);
+}());
